@@ -22,6 +22,12 @@ chmod +x scripts/run_server.sh
 scripts/run_server.sh
 ```
 
+Run the following command to start the streamlit app.
+```bash
+chmod +x scripts/run_frontend.sh
+scripts/run_frontend.sh
+```
+
 Sample request:
 ```bash
 curl --location --request POST 'http://127.0.0.1:3000/people/count' \
