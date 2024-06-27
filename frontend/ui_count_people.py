@@ -40,7 +40,9 @@ def draw_boxes_on_image(image, box_dict_list):
 st.title("Count People App")
 uploaded_file = st.file_uploader("Choose a video...", type=["mp4", "mov", "avi", "mkv"])
 if uploaded_file is not None:
-    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+    with tempfile.NamedTemporaryFile(
+        delete=False, suffix=".mp4", dir="data"
+    ) as tmp_file:
         tmp_file.write(uploaded_file.read())
         video_path = tmp_file.name
     st.video(video_path)
@@ -93,11 +95,12 @@ if uploaded_file is not None:
         cap.release()
         out.release()
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as output_tmp_file:
+    with tempfile.NamedTemporaryFile(
+        delete=False, suffix=".mp4", dir="data"
+    ) as output_tmp_file:
         processed_video_path = output_tmp_file.name
 
     process_video(video_path, processed_video_path, 20)
-
     st.video(processed_video_path)
 
     with open(processed_video_path, "rb") as f:
