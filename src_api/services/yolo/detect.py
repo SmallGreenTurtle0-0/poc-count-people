@@ -3,10 +3,10 @@ from PIL import Image
 from typing import Union
 
 
-class DetectPeople:
+class Detector:
     @staticmethod
-    def load(model_path) -> "DetectPeople":
-        return DetectPeople(model_path).load_model()
+    def load(model_path) -> "Detector":
+        return Detector(model_path).load_model()
 
     def __init__(self, model_path="yolov10n"):
         self.__model_path = model_path
@@ -17,6 +17,6 @@ class DetectPeople:
         return self
 
     # image: PIL.Image
-    def detect(self, image: Union[Image.Image, str], classes=[0]) -> list:
-        result = self.__model.predict(image, classes=classes)
+    def detect(self, image: Union[Image.Image, str], *args, **kwargs) -> list:
+        result = self.__model.predict(image, *args, **kwargs)
         return result

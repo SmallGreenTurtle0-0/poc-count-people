@@ -10,17 +10,24 @@ pre-commit install
 ```
 
 ## Usage
+Copy the `.env.example` file, rename it to `.env`, and set the values for the variables.
+Explanation of the .env.example file contents.
+```bash
+
+```
+
 Run the following command to start the server.
 ```bash
 chmod +x scripts/run_server.sh
 scripts/run_server.sh
 ```
+
 Sample request:
 ```bash
 curl --location --request POST 'http://127.0.0.1:3000/people/count' \
 --header 'Content-Type: application/json' \
 --data '{
-    "image": "/home/hahoang/Desktop/Upwork/poc-count-people/data/dogcat.jpeg"
+    "image": "data/dogcat.jpeg"
 }'
 ```
 

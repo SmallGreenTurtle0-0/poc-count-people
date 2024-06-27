@@ -1,6 +1,7 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Optional
 
 
 class PeopleDetection(BaseModel):
-    image: Union[str, bytes]
+    image: str
+    type: Optional[str] = "base64"

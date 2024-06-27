@@ -1,18 +1,23 @@
 import sys
+import os
 
 sys.path.append("src_api")
 from fastapi import FastAPI, Request
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from services.yolo.detect import DetectPeople
+from services.yolo.detect import Detector
 
 from api.endpoints.count_people import count_people_router
 from api.endpoints.health import health_router
+from dotenv import load_dotenv
+
+load_dotenv()
+WEIGHT_PATH = os.getenv("WEIGHT_PATH")
 
 
 @asynccontextmanager
 async def detect_people(app: FastAPI):
-    app.state.detector = DetectPeople.load("src_api/services/yolo/weights/yolov10n.pt")
+    app.state.detector = Detector.load(WEIGHT_PATH)
 
     yield
 

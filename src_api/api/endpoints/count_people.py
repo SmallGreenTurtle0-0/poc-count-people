@@ -1,7 +1,9 @@
+import base64
 from fastapi import APIRouter, Request
 from schemas import PeopleDetection
-from services.yolo.detect import DetectPeople
-
+from services.yolo.detect import Detector
+import io
+from PIL import Image
 
 count_people_router = APIRouter(prefix="/people")
 
@@ -12,12 +14,20 @@ async def health():
 
 
 @count_people_router.post("/count")
-async def count_people(request: Request, image: PeopleDetection):
-    detect_people: DetectPeople = request.state.detector
-    result = detect_people.detect(image.image)[0]
+async def count_people(request: Request, image: PeopleDetection) -> dict:
+    detect_people: Detector = request.state.detector
+
+    if image.type == "base64":
+        image_b64 = image.image
+        image_bytes = base64.b64decode(image_b64.encode("utf-8"))
+        image = Image.open(io.BytesIO(image_bytes))
+    else:
+        image = image.image
+
+    result = detect_people.detect(image, classes=[0], conf=0.2)[0]
     plot_result = result.plot(
         save=True,
-        filename="/home/hahoang/Desktop/Upwork/poc-count-people/data/people_count.png",
+        filename="data/people_count.png",
     )
     return {
         "plot": plot_result.tolist(),
