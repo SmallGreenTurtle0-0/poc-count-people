@@ -25,11 +25,4 @@ async def count_people(request: Request, image: PeopleDetection) -> dict:
         image = image.image
 
     result = detect_people.detect(image, classes=[0], conf=0.2)[0]
-    plot_result = result.plot(
-        save=True,
-        filename="data/people_count.png",
-    )
-    return {
-        "plot": plot_result.tolist(),
-        "people_count": len(result),
-    }
+    return {"people_count": len(result), "detail": result.tojson()}
